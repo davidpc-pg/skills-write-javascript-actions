@@ -13,6 +13,13 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4.0.2
+        with:
+          node-version: 20
+      - name: npm install
+        run: |
+          cd .github/actions/joke-action
+          npm ci
       - name: ha-ha
         id: haha
         uses: ./.github/actions/joke-action
