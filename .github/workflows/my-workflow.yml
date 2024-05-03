@@ -8,8 +8,18 @@ jobs:
   action:
     if: ${{ !github.event.repository.is_template }}
     runs-on: ubuntu-latest
+    permissions:
+      issues: write
 
     steps:
       - uses: actions/checkout@v4
       - name: ha-ha
+        id: haha
         uses: ./.github/actions/joke-action
+      - name: Add comment
+        run: gh issue comment "$NUMBER" --body "$BODY"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_REPO: ${{ github.repository }}
+          NUMBER: ${{ github.event.issue.number }}
+          BODY: ${{ steps.haha.outputs.joke-output }}
